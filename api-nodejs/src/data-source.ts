@@ -15,3 +15,10 @@ export const AppDataSource = new DataSource({
     subscribers: [],
     migrations: [__dirname + "/migration/*.js"],
 });
+
+//inicializar a conexão com o Banco
+AppDataSource.initialize()
+.then(() => {
+    console.log("Conexão com o banco de dados realizada com sucesso!");
+})
+.catch((error) => console.log("Erro na conexão com o banco de dados: ", error));
