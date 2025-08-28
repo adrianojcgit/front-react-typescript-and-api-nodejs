@@ -1,8 +1,15 @@
 import express, { Request, Response} from 'express';
-import { AppDataSource } from "./data-source";
+//Importar a Controller
+import UsersController from "./controllers/UsersController";
+//import cors from "cors";
 
 //criar a aplicação express
 const app = express();
+//Criar o middleware para receber os dados no corpo da requisição
+app.use(express.json());
+//app.use(cors());
+//Criar a rota
+app.use('/', UsersController);
 //Criar a rota principal
 app.get("/", ( req: Request, res: Response ) => {
     res.send("Bem-Vindo!");    
@@ -12,9 +19,3 @@ app.listen(8080, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8080");
 });
 
-//inicializar a conexão com o Banco
-AppDataSource.initialize()
-.then(() => {
-    console.log("Conexão com o banco de dados realizada com sucesso!");
-})
-.catch((error) => console.log("Erro na conexão com o banco de dados: ", error));
