@@ -40,8 +40,6 @@ router.post("/users", async (req: Request, res: Response) => {
     }
     res.send("Cadastrar");
 });
-//Exportar a instrução que está dentro da constante router
-export default router;
 
 //Rota Listar
 router.get("/users", async (req: Request, res: Response) => {
@@ -50,8 +48,9 @@ router.get("/users", async (req: Request, res: Response) => {
         const userRepository = AppDataSource.getRepository(User);
         //Recupera todos os usuários do Banco de dados
         const users = await userRepository.find();
+        console.log(users);
         //Retornar os usuários como resposta
-        res.status(200).json(users);
+        res.status(200).json({users});
         return;
     } catch (error) {
         res.status(500).json({
@@ -139,3 +138,36 @@ router.put("/users/:id", async (req: Request, res: Response) =>{
         return;
     }
 });
+
+//Criar rota excluir usuário
+router.delete("/users/:id", async (req: Request, res: Response) => {
+    try {
+        //Obter o id do usuário a partir dos parâmetros da requisição
+        const { id } = req.params;
+        //Criar uma instância do repositório user
+        const userRepository = AppDataSource.getRepository(User);
+        //Recuperar o registro do banco de dados com o valor da coluna email
+        const user = await userRepository.findOneBy({ id: parseInt(id)});
+        //Verficar se já existe usuário cadastrado com esse e-mail
+        if (!user) {
+            res.status(404).json({
+                message: "Usuário não encontrado!",
+            });
+            return;
+        }
+        //Remove registro
+        await userRepository.remove(user);
+
+        res.status(200).json({
+            message: "Usuário excluído com  sucesso!"
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Erro ao excluir usuário!"
+        });
+    }
+});
+
+//Exportar a instrução que está dentro da constante router
+export default router;
