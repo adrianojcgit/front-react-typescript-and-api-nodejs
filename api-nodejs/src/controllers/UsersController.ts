@@ -39,3 +39,21 @@ router.post("/users", async (req: Request, res: Response) => {
 });
 //Exportar a instrução que está dentro da constante router
 export default router;
+
+//Rota Listar
+router.get("/users", async (req: Request, res: Response) => {
+    try {
+        //Criar uma instância do repositório
+        const userRepository = AppDataSource.getRepository(User);
+        //Recupera todos os usuários do Banco de dados
+        const users = await userRepository.find();
+        //Retornar os usuários como resposta
+        res.status(200).json(users);
+        return;
+    } catch (error) {
+        res.status(500).json({
+            message: "Erro ao listar os usuários!"
+        });
+        return;
+    }
+});
