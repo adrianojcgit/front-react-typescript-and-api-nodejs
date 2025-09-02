@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import instance from "@/services/api";
 import Link from "next/link";
+import Menu from "@/app/components/Menu";
 
 export default function CreateUser() {
     const [name, setName] = useState<string>("");
@@ -30,36 +31,45 @@ export default function CreateUser() {
     }
 
     return (
-        <div>
-            <form onClick={handleSubmit}>
-                <div>
-                    <h1>Cadastrar Usuários</h1>
-                    <Link href={'/users/list'}>Listar</Link>
-                    {error && <p style={{ color: "#f00" }}>{error}</p>}
-                    {success && <p style={{ color: "#086" }}>{success}</p>}<br /><br />
-                    <label htmlFor="name">Nome: </label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={name}
-                        placeholder="Nome completo"
-                        onChange={(e) => setName(e.target.value)}
-                        className="border p-1"
-                    />
+        <div className="flex flex-col h-screen bg-gray-100">
+            <Menu />
+            {/* Conteúdo principal */}
+            <div className="flex-1 px-2 py-6 max-w-6xl mx-auto w-full">
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-2xl font-bold">Cadastrar Usuário</h1>
+                    <Link href={'/users/list'} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Listar</Link>
                 </div>
-                <div>
-                    <label htmlFor="email">Email: </label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        placeholder="Email"
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="border p-1"
-                    />
-                </div><br />
-                <button type="submit">Cadastrar</button>
-            </form>
+                {/* Exibe mensagem de erro */}
+                {error && <p className="text-red-500 mt-4">{error}</p>}
+                {/* Exibe mensagem de sucesso */}
+                {success && <p className="text-green-500 mt-4">{success}</p>}
+
+                <form onSubmit={handleSubmit} className="mt-6 bg-white shadow-md rounded-ls p-6">
+                    <div className="mb-4">
+                        <label htmlFor="name" className="block text-sm font-semibold">Nome: </label>
+                        <input
+                            type="text"
+                            id="name"
+                            value={name}
+                            placeholder="Nome completo"
+                            onChange={(e) => setName(e.target.value)}
+                            className="border p-2 w-full mt-1 rounded-md border-blue-100 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:outline-none"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="email"  className="block text-sm font-semibold">Email: </label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={email}
+                            placeholder="Email"
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="border p-2 w-full mt-1 rounded-md border-blue-100 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:outline-none"
+                        />
+                    </div><br />
+                    <button type="submit" className="p-2 bg-green-500 text-white rounded-md hover:bg-green-600">Cadastrar</button>
+                </form>
+            </div>
         </div>
     )
 }
