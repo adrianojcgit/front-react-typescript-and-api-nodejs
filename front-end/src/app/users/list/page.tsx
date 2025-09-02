@@ -1,6 +1,7 @@
 'use client'
 import instance from "@/services/api";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 interface User{
     id: number,
@@ -16,7 +17,6 @@ export default function Users(){
     const fetchUsers = async () => {
         try {
             const response = await instance.get("/users");
-            console.log(response.data);
             setUsers(response.data);
         } catch (error) {
             setError("Erro ao carregar os usuários");
@@ -31,7 +31,7 @@ export default function Users(){
     return(
         <div>
             <h1>Listar Usuários</h1>          
-
+            <Link href={'/users/create'}>Cadastrar</Link>
             {error && <p style={{color: "#f00"}}>{error}</p>}
             <table>
                 <thead>
@@ -42,13 +42,19 @@ export default function Users(){
                     </tr>
                 </thead>    
                 <tbody>  
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {/*
                     { users.map((user) => (
                         <tr key={user.id}>
                             <td>{user.id}</td>
                             <td>{user.name}</td>
                             <td>{user.email}</td>
                         </tr>
-                        ))}
+                        ))}*/}
                 </tbody>
             </table>
         </div>
