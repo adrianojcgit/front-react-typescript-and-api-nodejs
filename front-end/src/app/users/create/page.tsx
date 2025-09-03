@@ -1,7 +1,13 @@
+//A diretiva "use client" é usada para indicar que este componente é executado no cliente (browser);
+//Essa diretiva é especifica para o Next.js 13+ quando utiliza a renderização no lado do cliente.
 'use client'
+//Importa hooks do React para usar o estado "useState" e os efeitos colaterais "useEfect"
 import React, { useState } from "react";
+//Importa a instância do axios configurada para fazer requisições para API
 import instance from "@/services/api";
+//Importa o componente para criar  link
 import Link from "next/link";
+//Importa o componente com o Menu
 import Menu from "@/app/components/Menu";
 
 export default function CreateUser() {
@@ -32,15 +38,18 @@ export default function CreateUser() {
 
     return (
         <div className="flex flex-col h-screen bg-gray-100">
+            {/* Menu Superior */}
             <Menu />
             {/* Conteúdo principal */}
             <div className="flex-1 px-2 py-6 max-w-6xl mx-auto w-full">
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-bold">Cadastrar Usuário</h1>
-                    <Link href={'/users/list'} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Listar</Link>
+                    <Link href={'/users/list'} className="bg-cyan-500 text-white px-4 py-2 rounded-md hover:bg-cyan-600">Listar</Link>
                 </div>
+                
                 {/* Exibe mensagem de erro */}
                 {error && <p className="text-red-500 mt-4">{error}</p>}
+
                 {/* Exibe mensagem de sucesso */}
                 {success && <p className="text-green-500 mt-4">{success}</p>}
 

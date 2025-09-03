@@ -5,7 +5,7 @@ import { AppDataSource } from "../data-source";
 //Importar a entidade User
 import { User } from "../entity/User";
 import { Not } from "typeorm";
-import { Int32 } from "typeorm/browser";
+
 //Criar a aplicação Express
 const router = express.Router();
 
@@ -48,7 +48,7 @@ router.get("/users", async (req: Request, res: Response) => {
         const userRepository = AppDataSource.getRepository(User);
         //Recupera todos os usuários do Banco de dados
         const users = await userRepository.find();
-        //console.log(users);
+        console.log(users);
         //Retornar os usuários como resposta
         res.status(200).json({users});
         return;
