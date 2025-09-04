@@ -9,6 +9,8 @@ import instance from "@/services/api";
 import Link from "next/link";
 //Importa o componente com o Menu
 import Menu from "@/app/components/Menu";
+//Importa o componente personalizado SweetAlert2
+import AlertMessage from "@/app/components/AlertMessage";
 
 export default function CreateUser() {
     const [name, setName] = useState<string>("");
@@ -47,11 +49,11 @@ export default function CreateUser() {
                     <Link href={'/users/list'} className="bg-cyan-500 text-white px-4 py-2 rounded-md hover:bg-cyan-600">Listar</Link>
                 </div>
 
-                {/* Exibe mensagem de erro */}
-                {error && <p className="text-red-500 mt-4">{error}</p>}
+                {/* Exibe o alerta de erro */}
+                <AlertMessage type="error" message={error} />
 
-                {/* Exibe mensagem de sucesso */}
-                {success && <p className="text-green-500 mt-4">{success}</p>}
+                {/* Exibe o alerta de sucesso */}
+                <AlertMessage type="success" message={success} />
 
                 <form onSubmit={handleSubmit} className="mt-6 bg-white shadow-md rounded-ls p-6">
                     <div className="mb-4">
