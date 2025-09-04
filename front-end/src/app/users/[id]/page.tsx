@@ -14,6 +14,8 @@ import Link from "next/link";
 import Menu from "@/app/components/Menu";
 //Importa o componente Botão Delete
 import DeleteButton from "@/app/components/DeleteButton";
+//Importa o componente personalizado SweetAlert2
+import AlertMessage from "@/app/components/AlertMessage";
 
 //Definir tipos para a resposta da API (obs.: necessário pois trabalhamos com TypeScript)
 interface User {
@@ -97,8 +99,11 @@ export default function UserDetails() {
                     </span>
                 </div>
 
-                {/* Exibe mensagem de erro */}
-                {error && <p className="text-red-500 mt-4">{error}</p>}
+                {/* Exibe o alerta de erro */}
+                <AlertMessage type="error" message={error} />
+
+                {/* Exibe o alerta de sucesso */}
+                <AlertMessage type="success" message={success} />
 
                 {user && !error && (
                     <div className="bg-white shadow-md rounded-lg p-6">

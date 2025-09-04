@@ -11,6 +11,8 @@ import Link from "next/link";
 import Menu from "@/app/components/Menu";
 //Importa o componente Botão Delete
 import DeleteButton from "@/app/components/DeleteButton";
+//Importa o componente personalizado SweetAlert2
+import AlertMessage from "@/app/components/AlertMessage";
 
 //Definir tipos para a resposta da API (obs.: necessário pois trabalhamos com TypeScript)
 interface User {
@@ -79,11 +81,11 @@ export default function Users() {
                     <Link href={'/users/create'} className="bg-green-500 text-white px-2 py-1 rounded-md hover:bg-green-600">Cadastrar</Link>
                 </div>
 
-                {/* Exibe mensagem de erro */}
-                {error && <p className="text-red-500 mt-4">{error}</p>}
+                {/* Exibe o alerta de erro */}
+                <AlertMessage type="error" message={error} />
 
-                {/* Exibe mensagem de sucesso */}
-                {success && <p className="text-green-500 mt-4">{success}</p>}
+                {/* Exibe o alerta de sucesso */}
+                <AlertMessage type="success" message={success} />
 
                 <div className="mt-6 bg-white shadow-md rounded-lg p-6">
 
