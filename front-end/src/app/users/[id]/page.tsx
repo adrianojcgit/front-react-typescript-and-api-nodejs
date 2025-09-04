@@ -4,13 +4,16 @@
 //Importa hooks do React para usar o estado "useState" e os efeitos colaterais "useEfect"
 import { useEffect, useState } from "react";
 //useParams - Acessar 9os parâmetros da URL de uma página que usa rotas dinâmicas.
-import { useParams } from "next/navigation";
+//Importar hooks usado para manipular a navegação do usuário
+import { useParams, useRouter } from "next/navigation";
 //Importa a instância do axios configurada para fazer requisições para API
 import instance from "@/services/api";
 //Importa o componente para criar  link
 import Link from "next/link";
 //Importa o componente com o Menu
 import Menu from "@/app/components/Menu";
+//Importa o componente Botão Delete
+import DeleteButton from "@/app/components/DeleteButton";
 
 //Definir tipos para a resposta da API (obs.: necessário pois trabalhamos com TypeScript)
 interface User {
@@ -25,11 +28,17 @@ export default function UserDetails() {
     //Usando o useParams para acessar o parâmetro 'id' da URL
     const { id } = useParams();
 
+    //Instanciar objeto router
+    const router = useRouter();
+
     //Estado para armazenar o usuário
     const [user, setUser] = useState<User | null>(null);
 
     //Estado para controle de erros
     const [error, setError] = useState<string | null>(null);
+
+    //Estado para controle de sucesso
+    const [success, setSuccess] = useState<string | null>(null);
 
     const fetchUserDetail = async (id: string) => {
         try {
@@ -40,8 +49,17 @@ export default function UserDetails() {
             setUser(response.data.user);
 
         } catch (error: any) {
-            setError("Erro ao carregar o usuário");
+            setError(error.response?.data?.message || "Erro ao carregar o usuário");
         }
+    }
+
+    //Redirecionar para a página listar após deletar o registro
+    const handleSuccess = () => {        
+        //Salvar a mensagem no sessionStorage antes de redirecionar
+        sessionStorage.setItem("successMessage", "Registro excluído com sucesso");
+
+        //Redirecionar para página de listar
+        router.push("/users/list");
     }
 
     //Hook parra buscar os dados quando o id estiver disponível.
@@ -64,7 +82,19 @@ export default function UserDetails() {
             <div className="flex-1 px-2 py-6 max-w-6xl mx-auto w-full">
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-bold">Detalhes do Usuário</h1>
-                    <Link href={'/users/list'} className="bg-cyan-500 text-white px-4 py-2 rounded-md hover:bg-cyan-600">Listar</Link>
+                    <span className="flex space-x-1">
+                        <Link href={'/users/list'} className="bg-cyan-500 text-white px-2 py-1 rounded-md hover:bg-cyan-600">Listar</Link>
+                        <Link href={`/users/${id}/edit`} className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600">Editar</Link>
+                        {user && !error && (
+                            <DeleteButton 
+                                id={String(user.id)}
+                                route="users"
+                                onSuccess={handleSuccess}
+                                setError={setError}
+                                setSuccess={setSuccess}
+                            />
+                        )}
+                    </span>
                 </div>
 
                 {/* Exibe mensagem de erro */}
