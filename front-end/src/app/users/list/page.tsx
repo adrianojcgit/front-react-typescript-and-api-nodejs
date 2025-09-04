@@ -45,7 +45,7 @@ export default function Users() {
     }
 
     //Atualizar a lista de usuários
-    const handleSuccess = () => {        
+    const handleSuccess = () => {
         fetchUsers();
     }
 
@@ -55,10 +55,10 @@ export default function Users() {
         const message = sessionStorage.getItem("successMessage");
 
         //Verificar se existe mensagem
-        if(message){
+        if (message) {
             //Atribui a mensagem
             setSuccess(message);
-            
+
             //Remover mensagem para evitar duplicação
             sessionStorage.removeItem("successMessage");
         }
@@ -106,7 +106,7 @@ export default function Users() {
                                     <td className="border p-3 text-center space-x-1 flex justify-center items-center">
                                         <Link href={`/users/${user.id}`} className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600">Visualizar</Link>
                                         <Link href={`/users/${user.id}/edit`} className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600">Editar</Link>
-                                        <DeleteButton 
+                                        <DeleteButton
                                             id={String(user.id)}
                                             route="users"
                                             onSuccess={handleSuccess}
