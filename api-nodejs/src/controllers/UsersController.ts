@@ -48,7 +48,6 @@ router.get("/users", async (req: Request, res: Response) => {
         const userRepository = AppDataSource.getRepository(User);
         //Recupera todos os usuários do Banco de dados
         const users = await userRepository.find();
-        console.log(users);
         //Retornar os usuários como resposta
         res.status(200).json({users});
         return;
