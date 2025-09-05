@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 //useParams - Acessar 9os parâmetros da URL de uma página que usa rotas dinâmicas.
 //Importar hooks usado para manipular a navegação do usuário
 import { useParams, useRouter } from "next/navigation";
+//Importa a biblioteca para gerar PDF
+import jsPDF from "jspdf";
 //Importa a instância do axios configurada para fazer requisições para API
 import instance from "@/services/api";
 //Importa o componente para criar  link
@@ -75,6 +77,27 @@ export default function UserDetails() {
         }
     }, [id]);
 
+    //Gerar PDF dos dados do usuário
+    const generatePDF = () => {
+        //Verificar se existe usuário selecionado
+        if(!user) return;
+
+        const doc = new jsPDF();
+        /***** Início do conteúdo do PDF *****/
+        doc.setFontSize(16);
+        doc.text("Detalhes do usuário", 20, 20);
+        doc.setFontSize(12);
+        doc.text(`ID: ${user.id}`, 20, 40);
+        doc.text(`Nome: ${user.name}`, 20, 50);
+        doc.text(`E-mail: ${user.email}`, 20, 60);
+        doc.text(`Criado em: ${new Date(user.createdAt).toLocaleString()}`, 20, 70);
+        doc.text(`Editado em: ${new Date(user.updatedAt).toLocaleString()}`, 20, 80);
+        /*****Fim do conteúdo dod PDF */
+
+        //Atribuir o nome do arquivo e gerar o PDF
+        doc.save(`${user.name}.pdf`);
+    }
+
     return (
         <div className="flex flex-col h-screen bg-gray-100">
             {/* Menu Superior */}
@@ -86,6 +109,9 @@ export default function UserDetails() {
                     <h1 className="text-2xl font-bold">Detalhes do Usuário</h1>
                     <span className="flex space-x-1">
                         <Link href={'/users/list'} className="bg-cyan-500 text-white px-2 py-1 rounded-md hover:bg-cyan-600">Listar</Link>
+                        <button onClick={generatePDF} className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600">
+                            Gerar PDF
+                        </button>
                         <Link href={`/users/${id}/edit`} className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600">Editar</Link>
                         {user && !error && (
                             <DeleteButton 
